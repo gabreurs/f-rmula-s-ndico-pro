@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          administradora: string
+          cargo: string | null
+          cidade: string
+          created_at: string
+          email: string | null
+          formato_preferido: string | null
+          id: string
+          nome_responsavel: string
+          observacoes_internas: string | null
+          observacoes_lead: string | null
+          origem: string
+          periodo_desejado: string | null
+          proximo_followup: string | null
+          qtd_condominios: number | null
+          qtd_sindicos: number | null
+          responsavel_interno: string | null
+          status: string
+          uf: string
+          whatsapp: string
+        }
+        Insert: {
+          administradora: string
+          cargo?: string | null
+          cidade: string
+          created_at?: string
+          email?: string | null
+          formato_preferido?: string | null
+          id?: string
+          nome_responsavel: string
+          observacoes_internas?: string | null
+          observacoes_lead?: string | null
+          origem?: string
+          periodo_desejado?: string | null
+          proximo_followup?: string | null
+          qtd_condominios?: number | null
+          qtd_sindicos?: number | null
+          responsavel_interno?: string | null
+          status?: string
+          uf: string
+          whatsapp: string
+        }
+        Update: {
+          administradora?: string
+          cargo?: string | null
+          cidade?: string
+          created_at?: string
+          email?: string | null
+          formato_preferido?: string | null
+          id?: string
+          nome_responsavel?: string
+          observacoes_internas?: string | null
+          observacoes_lead?: string | null
+          origem?: string
+          periodo_desejado?: string | null
+          proximo_followup?: string | null
+          qtd_condominios?: number | null
+          qtd_sindicos?: number | null
+          responsavel_interno?: string | null
+          status?: string
+          uf?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
