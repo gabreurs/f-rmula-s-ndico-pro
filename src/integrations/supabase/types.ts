@@ -40,6 +40,7 @@ export type Database = {
           responsavel_followup: string | null
           responsavel_interno: string | null
           status: string
+          status_atualizado_em: string
           uf: string
           whatsapp: string
         }
@@ -68,6 +69,7 @@ export type Database = {
           responsavel_followup?: string | null
           responsavel_interno?: string | null
           status?: string
+          status_atualizado_em?: string
           uf: string
           whatsapp: string
         }
@@ -96,6 +98,7 @@ export type Database = {
           responsavel_followup?: string | null
           responsavel_interno?: string | null
           status?: string
+          status_atualizado_em?: string
           uf?: string
           whatsapp?: string
         }
