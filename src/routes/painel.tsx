@@ -160,13 +160,31 @@ function Painel() {
   );
 }
 
+function diasNoStatus(lead: Lead) {
+  const base = (lead as Lead & { status_atualizado_em?: string | null })
+    .status_atualizado_em ?? lead.created_at;
+  const ms = Date.now() - new Date(base).getTime();
+  return Math.max(0, Math.floor(ms / 86_400_000));
+}
+
 function LeadCard({ lead, onSaved }: { lead: Lead; onSaved: () => void }) {
   const salvar = useServerFn(atualizarLead);
   const [status, setStatus] = useState(lead.status);
   const [responsavel, setResponsavel] = useState(lead.responsavel_interno ?? "");
+  const [respFollowup, setRespFollowup] = useState(
+    (lead as Lead & { responsavel_followup?: string | null }).responsavel_followup ?? "",
+  );
   const [followup, setFollowup] = useState(lead.proximo_followup ?? "");
+  const [confirmacao, setConfirmacao] = useState(
+    (lead as Lead & { data_confirmacao_formato?: string | null })
+      .data_confirmacao_formato ?? "",
+  );
   const [obs, setObs] = useState(lead.observacoes_internas ?? "");
   const [estado, setEstado] = useState<"idle" | "salvando" | "ok" | "erro">("idle");
+
+  const dias = diasNoStatus(lead);
+  const statusLabel =
+    STATUS_OPTIONS.find((s) => s.value === lead.status)?.label ?? lead.status;
 
   async function onSalvar() {
     setEstado("salvando");
@@ -176,7 +194,9 @@ function LeadCard({ lead, onSaved }: { lead: Lead; onSaved: () => void }) {
           id: lead.id,
           status,
           responsavel_interno: responsavel,
+          responsavel_followup: respFollowup,
           proximo_followup: followup,
+          data_confirmacao_formato: confirmacao,
           observacoes_internas: obs,
         },
       });
@@ -196,14 +216,43 @@ function LeadCard({ lead, onSaved }: { lead: Lead; onSaved: () => void }) {
             {lead.nome_responsavel}
             {lead.cargo ? ` · ${lead.cargo}` : ""} — {lead.cidade}/{lead.uf}
           </p>
+          <p
+            className={`mt-3 inline-block rounded-md border px-2.5 py-1 text-xs ${
+              dias >= 7
+                ? "border-destructive/50 text-destructive"
+                : "border-border text-muted-foreground"
+            }`}
+          >
+            {statusLabel} · {dias === 0 ? "atualizado hoje" : `${dias} dia(s) parado`}
+          </p>
           <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
             <Info label="WhatsApp" valor={lead.whatsapp} />
             <Info label="E-mail" valor={lead.email} />
+            <Info
+              label="Participa da decisão"
+              valor={(lead as Lead & { participa_decisao?: string | null }).participa_decisao ?? null}
+            />
             <Info label="Condomínios" valor={lead.qtd_condominios} />
             <Info label="Síndicos" valor={lead.qtd_sindicos} />
             <Info label="Formato" valor={lead.formato_preferido} />
             <Info label="Período" valor={lead.periodo_desejado} />
+            <Info
+              label="Estrutura presencial"
+              valor={(lead as Lead & { estrutura_presencial?: string | null }).estrutura_presencial ?? null}
+            />
+            <Info
+              label="Intenção 90 dias"
+              valor={(lead as Lead & { intencao_90_dias?: string | null }).intencao_90_dias ?? null}
+            />
+            <Info
+              label="Objetivo"
+              valor={(lead as Lead & { objetivo_principal?: string | null }).objetivo_principal ?? null}
+            />
             <Info label="Origem" valor={lead.origem} />
+            <Info
+              label="Atribuição"
+              valor={(lead as Lead & { origem_atribuida?: string | null }).origem_atribuida ?? null}
+            />
             <Info
               label="Recebido em"
               valor={new Date(lead.created_at).toLocaleString("pt-BR")}
@@ -227,12 +276,19 @@ function LeadCard({ lead, onSaved }: { lead: Lead; onSaved: () => void }) {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
+              {!STATUS_OPTIONS.some((s) => s.value === status) && (
+                <option value={status}>{status}</option>
+              )}
               {STATUS_OPTIONS.map((s) => (
                 <option key={s.value} value={s.value}>
                   {s.label}
                 </option>
               ))}
             </select>
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              Marque “Curso confirmado” apenas com confirmação por escrito da
+              administradora sobre formato e data ou janela de realização.
+            </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
@@ -251,6 +307,20 @@ function LeadCard({ lead, onSaved }: { lead: Lead; onSaved: () => void }) {
             </div>
             <div>
               <label
+                htmlFor={`respfup-${lead.id}`}
+                className="mb-1.5 block text-sm font-medium"
+              >
+                Responsável pelo follow-up
+              </label>
+              <input
+                id={`respfup-${lead.id}`}
+                className={fieldClass}
+                value={respFollowup}
+                onChange={(e) => setRespFollowup(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
                 htmlFor={`fup-${lead.id}`}
                 className="mb-1.5 block text-sm font-medium"
               >
@@ -262,6 +332,21 @@ function LeadCard({ lead, onSaved }: { lead: Lead; onSaved: () => void }) {
                 className={fieldClass}
                 value={followup}
                 onChange={(e) => setFollowup(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor={`conf-${lead.id}`}
+                className="mb-1.5 block text-sm font-medium"
+              >
+                Confirmação de formato e data
+              </label>
+              <input
+                id={`conf-${lead.id}`}
+                type="date"
+                className={fieldClass}
+                value={confirmacao}
+                onChange={(e) => setConfirmacao(e.target.value)}
               />
             </div>
           </div>
@@ -304,3 +389,4 @@ function Info({ label, valor }: { label: string; valor: string | number | null }
     </div>
   );
 }
+
