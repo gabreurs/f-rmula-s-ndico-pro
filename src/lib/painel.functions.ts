@@ -82,8 +82,18 @@ export const atualizarLead = createServerFn({ method: "POST" })
     await requireUnlocked();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { id, ...campos } = data;
-    const patch: PatchLead = {};
-    if (campos.status !== undefined) patch.status = campos.status;
+    const patch: PatchLead & { status_atualizado_em?: string } = {};
+    if (campos.status !== undefined) {
+      const { data: atual } = await supabaseAdmin
+        .from("leads")
+        .select("status")
+        .eq("id", id)
+        .maybeSingle();
+      patch.status = campos.status;
+      if (atual && atual.status !== campos.status) {
+        patch.status_atualizado_em = new Date().toISOString();
+      }
+    }
     if (campos.responsavel_interno !== undefined)
       patch.responsavel_interno = campos.responsavel_interno || null;
     if (campos.responsavel_followup !== undefined)
@@ -96,6 +106,7 @@ export const atualizarLead = createServerFn({ method: "POST" })
       patch.observacoes_internas = campos.observacoes_internas || null;
 
     const { error } = await supabaseAdmin.from("leads").update(patch).eq("id", id);
+
 
     if (error) throw new Error(error.message);
     return { ok: true as const };
