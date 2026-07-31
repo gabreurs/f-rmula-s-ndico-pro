@@ -1,6 +1,14 @@
 import { useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { CTA_TEXT, FORMATOS, UFS } from "@/lib/formula-sindico";
+import {
+  CTA_TEXT,
+  ESTRUTURA_PRESENCIAL,
+  FORMATOS,
+  INTENCAO_90_DIAS,
+  PARTICIPA_DECISAO,
+  UFS,
+  WHATSAPP_EQUIPE_URL,
+} from "@/lib/formula-sindico";
 
 type Campos = {
   nome_responsavel: string;
@@ -10,10 +18,14 @@ type Campos = {
   whatsapp: string;
   email: string;
   cargo: string;
+  participa_decisao: string;
   qtd_condominios: string;
   qtd_sindicos: string;
   formato_preferido: string;
   periodo_desejado: string;
+  estrutura_presencial: string;
+  objetivo_principal: string;
+  intencao_90_dias: string;
   observacoes_lead: string;
 };
 
@@ -25,10 +37,14 @@ const inicial: Campos = {
   whatsapp: "",
   email: "",
   cargo: "",
+  participa_decisao: "",
   qtd_condominios: "",
   qtd_sindicos: "",
   formato_preferido: "",
   periodo_desejado: "",
+  estrutura_presencial: "",
+  objetivo_principal: "",
+  intencao_90_dias: "",
   observacoes_lead: "",
 };
 
@@ -49,9 +65,9 @@ function validar(v: Campos) {
   else if (digitos.length < 10 || digitos.length > 13)
     erros.whatsapp = "WhatsApp inválido. Use DDD + número, ex.: (11) 99999-9999.";
 
-  if (!v.qtd_condominios.trim())
-    erros.qtd_condominios = "Informe a quantidade aproximada de condomínios.";
-  else if (!/^\d+$/.test(v.qtd_condominios.trim()))
+  if (!v.formato_preferido) erros.formato_preferido = "Selecione o formato de preferência.";
+
+  if (v.qtd_condominios.trim() && !/^\d+$/.test(v.qtd_condominios.trim()))
     erros.qtd_condominios = "Use apenas números, ex.: 45.";
 
   if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email.trim()))
@@ -95,10 +111,16 @@ export function FormularioLead() {
       whatsapp: valores.whatsapp.trim(),
       email: valores.email.trim() || null,
       cargo: valores.cargo.trim() || null,
-      qtd_condominios: Number(valores.qtd_condominios),
+      participa_decisao: valores.participa_decisao || null,
+      qtd_condominios: valores.qtd_condominios.trim()
+        ? Number(valores.qtd_condominios)
+        : null,
       qtd_sindicos: valores.qtd_sindicos.trim() ? Number(valores.qtd_sindicos) : null,
-      formato_preferido: valores.formato_preferido || null,
+      formato_preferido: valores.formato_preferido,
       periodo_desejado: valores.periodo_desejado.trim() || null,
+      estrutura_presencial: valores.estrutura_presencial || null,
+      objetivo_principal: valores.objetivo_principal.trim() || null,
+      intencao_90_dias: valores.intencao_90_dias || null,
       observacoes_lead: valores.observacoes_lead.trim() || null,
       origem: "landing",
       status: "novo_lead",
@@ -125,22 +147,27 @@ export function FormularioLead() {
           &#10003;
         </span>
         <h3 className="mt-4 text-2xl">Recebemos sua solicitação</h3>
-        <p className="mt-3 text-muted-foreground">
-          Obrigado, {valores.nome_responsavel.split(" ")[0]}. Os dados da{" "}
-          {valores.administradora} chegaram até nós. Nossa equipe entra em
-          contato pelo WhatsApp para agendar a conversa com o Maicon Guedes e
-          alinhar formato, datas e turma.
+        <p className="mt-4 text-muted-foreground">
+          Obrigado, {valores.nome_responsavel.split(" ")[0]}. Recebemos os dados
+          da {valores.administradora}.
         </p>
-        <button
-          type="button"
-          onClick={() => {
-            setValores(inicial);
-            setEnviado(false);
-          }}
-          className="mt-7 rounded-lg border border-border px-5 py-2.5 text-sm font-medium hover:bg-accent"
+        <p className="mt-4 text-muted-foreground">
+          Nossa equipe vai analisar as informações e entrar em contato pelo
+          WhatsApp para entender melhor o interesse da administradora.
+        </p>
+        <p className="mt-4 text-muted-foreground">
+          Na sequência, vamos organizar uma conversa com Maicon Guedes para
+          avaliar o formato mais adequado, as possibilidades de realização e os
+          próximos passos para confirmação da turma.
+        </p>
+        <a
+          href={WHATSAPP_EQUIPE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-7 inline-block rounded-lg border border-border px-5 py-2.5 text-sm font-medium hover:bg-accent"
         >
-          Enviar outra solicitação
-        </button>
+          Falar com nossa equipe
+        </a>
       </div>
     );
   }
@@ -203,16 +230,29 @@ export function FormularioLead() {
           erro={erros.whatsapp}
           onChange={(v) => set("whatsapp", v)}
         />
-        <Campo
-          id="qtd_condominios"
-          label="Condomínios administrados (aprox.)"
-          required
-          inputMode="numeric"
-          placeholder="45"
-          value={valores.qtd_condominios}
-          erro={erros.qtd_condominios}
-          onChange={(v) => set("qtd_condominios", v)}
-        />
+        <div>
+          <label htmlFor="formato_preferido" className="mb-1.5 block text-sm font-medium">
+            Formato de preferência <span className="text-gold">*</span>
+          </label>
+          <select
+            id="formato_preferido"
+            className={fieldClass}
+            value={valores.formato_preferido}
+            aria-invalid={Boolean(erros.formato_preferido)}
+            aria-describedby={erros.formato_preferido ? "formato_preferido-erro" : undefined}
+            onChange={(e) => set("formato_preferido", e.target.value)}
+          >
+            <option value="">Selecione</option>
+            {FORMATOS.map((f) => (
+              <option key={f} value={f}>
+                {f.charAt(0).toUpperCase() + f.slice(1)}
+              </option>
+            ))}
+          </select>
+          {erros.formato_preferido && (
+            <Erro id="formato_preferido-erro">{erros.formato_preferido}</Erro>
+          )}
+        </div>
         <Campo
           id="email"
           label="E-mail (opcional)"
@@ -228,6 +268,22 @@ export function FormularioLead() {
           value={valores.cargo}
           onChange={(v) => set("cargo", v)}
         />
+        <Selecao
+          id="participa_decisao"
+          label="Participa da decisão? (opcional)"
+          value={valores.participa_decisao}
+          opcoes={PARTICIPA_DECISAO}
+          onChange={(v) => set("participa_decisao", v)}
+        />
+        <Campo
+          id="qtd_condominios"
+          label="Condomínios administrados (opcional)"
+          inputMode="numeric"
+          placeholder="45"
+          value={valores.qtd_condominios}
+          erro={erros.qtd_condominios}
+          onChange={(v) => set("qtd_condominios", v)}
+        />
         <Campo
           id="qtd_sindicos"
           label="Síndicos que poderia reunir (opcional)"
@@ -237,31 +293,36 @@ export function FormularioLead() {
           erro={erros.qtd_sindicos}
           onChange={(v) => set("qtd_sindicos", v)}
         />
-        <div>
-          <label htmlFor="formato_preferido" className="mb-1.5 block text-sm font-medium">
-            Formato de preferência (opcional)
-          </label>
-          <select
-            id="formato_preferido"
-            className={fieldClass}
-            value={valores.formato_preferido}
-            onChange={(e) => set("formato_preferido", e.target.value)}
-          >
-            <option value="">Sem preferência</option>
-            {FORMATOS.map((f) => (
-              <option key={f} value={f}>
-                {f.charAt(0).toUpperCase() + f.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Selecao
+          id="estrutura_presencial"
+          label="Tem estrutura para receber o encontro? (opcional)"
+          value={valores.estrutura_presencial}
+          opcoes={ESTRUTURA_PRESENCIAL}
+          onChange={(v) => set("estrutura_presencial", v)}
+        />
+        <Selecao
+          id="intencao_90_dias"
+          label="Pretende realizar nos próximos 90 dias? (opcional)"
+          value={valores.intencao_90_dias}
+          opcoes={INTENCAO_90_DIAS}
+          onChange={(v) => set("intencao_90_dias", v)}
+        />
         <div className="sm:col-span-2">
           <Campo
             id="periodo_desejado"
-            label="Período desejado (opcional)"
-            placeholder="Ex.: segunda quinzena de outubro"
+            label="Período ou mês desejado (opcional)"
+            placeholder="Ex.: segunda quinzena de outubro ou 4º trimestre"
             value={valores.periodo_desejado}
             onChange={(v) => set("periodo_desejado", v)}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <Campo
+            id="objetivo_principal"
+            label="Principal objetivo da administradora com o curso (opcional)"
+            placeholder="Ex.: aproximar os síndicos e reduzir conflitos"
+            value={valores.objetivo_principal}
+            onChange={(v) => set("objetivo_principal", v)}
           />
         </div>
         <div className="sm:col-span-2">
@@ -292,7 +353,8 @@ export function FormularioLead() {
         {enviando ? "Enviando..." : CTA_TEXT}
       </button>
       <p className="mt-3 text-center text-xs text-muted-foreground">
-        Sem compromisso. Usamos seus dados apenas para agendar a conversa.
+        Sem compromisso. Usamos seus dados apenas para avaliar o interesse e
+        organizar a conversa.
       </p>
     </form>
   );
@@ -303,6 +365,41 @@ function Erro({ id, children }: { id: string; children: React.ReactNode }) {
     <p id={id} className="mt-1.5 text-xs text-destructive">
       {children}
     </p>
+  );
+}
+
+function Selecao({
+  id,
+  label,
+  value,
+  opcoes,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  opcoes: { value: string; label: string }[];
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="mb-1.5 block text-sm font-medium">
+        {label}
+      </label>
+      <select
+        id={id}
+        className={fieldClass}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option value="">Selecione</option>
+        {opcoes.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 
