@@ -20,17 +20,24 @@ export type Database = {
           cargo: string | null
           cidade: string
           created_at: string
+          data_confirmacao_formato: string | null
           email: string | null
+          estrutura_presencial: string | null
           formato_preferido: string | null
           id: string
+          intencao_90_dias: string | null
           nome_responsavel: string
+          objetivo_principal: string | null
           observacoes_internas: string | null
           observacoes_lead: string | null
           origem: string
+          origem_atribuida: string
+          participa_decisao: string | null
           periodo_desejado: string | null
           proximo_followup: string | null
           qtd_condominios: number | null
           qtd_sindicos: number | null
+          responsavel_followup: string | null
           responsavel_interno: string | null
           status: string
           uf: string
@@ -41,17 +48,24 @@ export type Database = {
           cargo?: string | null
           cidade: string
           created_at?: string
+          data_confirmacao_formato?: string | null
           email?: string | null
+          estrutura_presencial?: string | null
           formato_preferido?: string | null
           id?: string
+          intencao_90_dias?: string | null
           nome_responsavel: string
+          objetivo_principal?: string | null
           observacoes_internas?: string | null
           observacoes_lead?: string | null
           origem?: string
+          origem_atribuida?: string
+          participa_decisao?: string | null
           periodo_desejado?: string | null
           proximo_followup?: string | null
           qtd_condominios?: number | null
           qtd_sindicos?: number | null
+          responsavel_followup?: string | null
           responsavel_interno?: string | null
           status?: string
           uf: string
@@ -62,17 +76,24 @@ export type Database = {
           cargo?: string | null
           cidade?: string
           created_at?: string
+          data_confirmacao_formato?: string | null
           email?: string | null
+          estrutura_presencial?: string | null
           formato_preferido?: string | null
           id?: string
+          intencao_90_dias?: string | null
           nome_responsavel?: string
+          objetivo_principal?: string | null
           observacoes_internas?: string | null
           observacoes_lead?: string | null
           origem?: string
+          origem_atribuida?: string
+          participa_decisao?: string | null
           periodo_desejado?: string | null
           proximo_followup?: string | null
           qtd_condominios?: number | null
           qtd_sindicos?: number | null
+          responsavel_followup?: string | null
           responsavel_interno?: string | null
           status?: string
           uf?: string
