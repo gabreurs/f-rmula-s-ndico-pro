@@ -67,31 +67,31 @@ export const listarLeads = createServerFn({ method: "GET" }).handler(async () =>
   return data ?? [];
 });
 
+type PatchLead = {
+  status?: string;
+  responsavel_interno?: string | null;
+  responsavel_followup?: string | null;
+  proximo_followup?: string | null;
+  data_confirmacao_formato?: string | null;
+  observacoes_internas?: string | null;
+};
+
 export const atualizarLead = createServerFn({ method: "POST" })
-  .inputValidator(
-    (data: {
-      id: string;
-      status?: string;
-      responsavel_interno?: string | null;
-      proximo_followup?: string | null;
-      observacoes_internas?: string | null;
-    }) => data,
-  )
+  .inputValidator((data: { id: string } & PatchLead) => data)
   .handler(async ({ data }) => {
     await requireUnlocked();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { id, ...campos } = data;
-    const patch: {
-      status?: string;
-      responsavel_interno?: string | null;
-      proximo_followup?: string | null;
-      observacoes_internas?: string | null;
-    } = {};
+    const patch: PatchLead = {};
     if (campos.status !== undefined) patch.status = campos.status;
     if (campos.responsavel_interno !== undefined)
       patch.responsavel_interno = campos.responsavel_interno || null;
+    if (campos.responsavel_followup !== undefined)
+      patch.responsavel_followup = campos.responsavel_followup || null;
     if (campos.proximo_followup !== undefined)
       patch.proximo_followup = campos.proximo_followup || null;
+    if (campos.data_confirmacao_formato !== undefined)
+      patch.data_confirmacao_formato = campos.data_confirmacao_formato || null;
     if (campos.observacoes_internas !== undefined)
       patch.observacoes_internas = campos.observacoes_internas || null;
 
@@ -100,3 +100,4 @@ export const atualizarLead = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true as const };
   });
+
