@@ -1,3 +1,5 @@
+import maiconFoto from "@/assets/maicon.png.asset.json";
+
 const credenciais = [
   "Advogado, especialista e mestre em Direito",
   "MBA em Gestão Estratégica e Inovação",
@@ -10,8 +12,16 @@ const credenciais = [
 export function SobreMaicon() {
   return (
     <section id="maicon" className="scroll-mt-20 border-y border-border bg-surface/40">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[1fr_1.2fr] md:py-28">
-        <div>
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[0.8fr_1fr_1.1fr] md:py-28">
+        <div className="relative overflow-hidden rounded-xl border border-border bg-background/60">
+          <img
+            src={maiconFoto.url}
+            alt="Retrato de Maicon Guedes, advogado e professor de Direito Condominial"
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="self-center">
           <p className="eyebrow">Quem ministra</p>
           <h2 className="mt-4 text-3xl md:text-4xl">Maicon Guedes</h2>
           <p className="mt-5 text-muted-foreground">
@@ -21,6 +31,7 @@ export function SobreMaicon() {
             conteúdo chegar ao síndico de forma aplicável, sem juridiquês.
           </p>
         </div>
+
         <ul className="grid gap-3 self-center">
           {credenciais.map((c) => (
             <li

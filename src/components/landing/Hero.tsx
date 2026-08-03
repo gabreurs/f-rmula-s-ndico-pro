@@ -1,24 +1,17 @@
-import heroImg from "@/assets/hero-condominio.jpg";
 import { CTA_TEXT } from "@/lib/formula-sindico";
 
 export function Hero() {
   return (
     <header className="relative isolate overflow-hidden">
-      <img
-        src={heroImg}
-        alt="Fachada de um condomínio moderno iluminada ao entardecer"
-        width={1600}
-        height={1104}
-        className="absolute inset-0 -z-10 h-full w-full object-cover opacity-45"
-      />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,var(--color-background)_15%,transparent_85%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(120%_80%_at_15%_0%,color-mix(in_oklab,var(--color-gold)_10%,transparent),transparent_65%)]"
       />
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,transparent_40%,var(--color-background))]"
       />
+
 
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-7">
         <span className="font-display text-lg font-semibold tracking-tight">
