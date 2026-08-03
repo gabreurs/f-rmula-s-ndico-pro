@@ -1,3 +1,5 @@
+import maiconFoto from "@/assets/maicon.png.asset.json";
+
 const credenciais = [
   "Advogado, especialista e mestre em Direito",
   "MBA em Gestão Estratégica e Inovação",
