@@ -1,15 +1,21 @@
 import { CTA_TEXT } from "@/lib/formula-sindico";
+import heroBuilding from "@/assets/hero-building.jpg";
 
 export function Hero() {
   return (
     <header className="relative isolate overflow-hidden">
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[radial-gradient(120%_80%_at_15%_0%,color-mix(in_oklab,var(--color-gold)_10%,transparent),transparent_65%)]"
+        className="absolute inset-0 -z-30 bg-cover bg-center bg-no-repeat opacity-30"
+        style={{ backgroundImage: `url(${heroBuilding})` }}
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,transparent_40%,var(--color-background))]"
+        className="absolute inset-0 -z-20 bg-[radial-gradient(120%_80%_at_15%_0%,color-mix(in_oklab,var(--color-gold)_12%,transparent),transparent_65%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,var(--color-background)_0%,transparent_25%,var(--color-background)_100%)]"
       />
 
 
