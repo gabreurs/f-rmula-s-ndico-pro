@@ -163,3 +163,123 @@ export async function vincularEvento(
     .from("event_participants")
     .upsert({ contact_id, event_id, status }, { onConflict: "contact_id,event_id" });
 }
+
+export type LinhaBruta = {
+  nome?: string | null;
+  email?: string | null;
+  whatsapp?: string | null;
+  cidade?: string | null;
+  uf?: string | null;
+};
+
+export type RelatorioImportacao = {
+  total: number;
+  novos: number;
+  atualizados: number;
+  ignorados: number;
+  erros: number;
+  detalhesErros: { linha: number; motivo: string; dados: LinhaBruta }[];
+};
+
+/** Importa linhas de planilha deduplicando por e-mail e telefone. */
+export async function processarImportacao(args: {
+  linhas: LinhaBruta[];
+  event_id?: string | null;
+  source: string;
+  source_detail?: string | null;
+  perfil?: string | null;
+  tags?: string[];
+  arquivo?: string | null;
+}): Promise<RelatorioImportacao> {
+  const rel: RelatorioImportacao = {
+    total: args.linhas.length,
+    novos: 0,
+    atualizados: 0,
+    ignorados: 0,
+    erros: 0,
+    detalhesErros: [],
+  };
+  const vistos = new Set<string>();
+
+  for (let i = 0; i < args.linhas.length; i++) {
+    const linha = args.linhas[i]!;
+    const nome = (linha.nome ?? "").trim();
+    const email = normalizarEmail(linha.email);
+    const tel = normalizarTelefone(linha.whatsapp);
+
+    if (!nome) {
+      rel.erros++;
+      rel.detalhesErros.push({ linha: i + 2, motivo: "Nome ausente", dados: linha });
+      continue;
+    }
+    if (!email && !tel) {
+      rel.erros++;
+      rel.detalhesErros.push({
+        linha: i + 2,
+        motivo: "Sem e-mail nem telefone válidos",
+        dados: linha,
+      });
+      continue;
+    }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      rel.erros++;
+      rel.detalhesErros.push({ linha: i + 2, motivo: "E-mail inválido", dados: linha });
+      continue;
+    }
+    const chave = email ?? tel!;
+    if (vistos.has(chave)) {
+      rel.ignorados++;
+      continue;
+    }
+    vistos.add(chave);
+
+    try {
+      const { id, criado } = await upsertContato({
+        nome,
+        email: linha.email ?? null,
+        whatsapp: linha.whatsapp ?? null,
+        cidade: linha.cidade ?? null,
+        uf: (linha.uf ?? "").trim().slice(0, 2).toUpperCase() || null,
+        perfis: args.perfil ? [args.perfil] : [],
+        tags: args.tags ?? [],
+        source: args.source,
+        source_detail: args.source_detail ?? null,
+      });
+      if (criado) rel.novos++;
+      else rel.atualizados++;
+
+      if (args.event_id) {
+        await vincularEvento(id, args.event_id, "inscrito");
+      }
+      await registrarInteracao({
+        contact_id: id,
+        tipo: "importacao",
+        descricao: `Importação via ${args.source}${args.arquivo ? ` (${args.arquivo})` : ""}`,
+        event_id: args.event_id ?? null,
+        source: args.source,
+      });
+    } catch (e) {
+      rel.erros++;
+      rel.detalhesErros.push({
+        linha: i + 2,
+        motivo: e instanceof Error ? e.message : "Falha ao gravar",
+        dados: linha,
+      });
+    }
+  }
+
+  await supabaseAdmin.from("imports").insert({
+    arquivo: args.arquivo ?? null,
+    event_id: args.event_id ?? null,
+    source: args.source,
+    source_detail: args.source_detail ?? null,
+    total: rel.total,
+    novos: rel.novos,
+    atualizados: rel.atualizados,
+    ignorados: rel.ignorados,
+    erros: rel.erros,
+    relatorio: rel.detalhesErros.slice(0, 200),
+  });
+
+  return rel;
+}
