@@ -17,9 +17,43 @@ export function sessionConfig() {
   };
 }
 
+const DURACAO_MS = 1000 * 60 * 60 * 8;
+
+async function assinar(payload: string) {
+  const { createHmac } = await import("node:crypto");
+  return createHmac("sha256", process.env["SESSION_SECRET"]!)
+    .update(payload)
+    .digest("hex");
+}
+
+/** Token HMAC usado quando o cookie de sessão é bloqueado (iframe cross-site). */
+export async function criarTokenPainel() {
+  const exp = String(Date.now() + DURACAO_MS);
+  return `${exp}.${await assinar(exp)}`;
+}
+
+export async function tokenPainelValido(token: string | null | undefined) {
+  if (!token) return false;
+  const [exp, assinatura] = token.split(".");
+  if (!exp || !assinatura) return false;
+  if (Number(exp) < Date.now()) return false;
+  const esperado = await assinar(exp);
+  return esperado === assinatura;
+}
+
+/** true se o request tem cookie de sessão liberado OU token válido no header. */
+export async function sessaoLiberada() {
+  const { getRequestHeader } = await import("@tanstack/react-start/server");
+  if (await tokenPainelValido(getRequestHeader("x-painel-token"))) return true;
+  try {
+    const session = await useSession<PainelSession>(sessionConfig());
+    return Boolean(session.data.unlocked);
+  } catch {
+    return false;
+  }
+}
+
 /** Garante que a requisição vem de uma sessão administrativa liberada. */
 export async function requireUnlocked() {
-  const session = await useSession<PainelSession>(sessionConfig());
-  if (!session.data.unlocked) throw new Error("NAO_AUTORIZADO");
-  return session;
+  if (!(await sessaoLiberada())) throw new Error("NAO_AUTORIZADO");
 }
