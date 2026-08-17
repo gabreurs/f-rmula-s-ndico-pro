@@ -1,4 +1,8 @@
-export const CTA_TEXT = "Quero levar o Fórmula Síndico para minha administradora";
+export const CTA_PRINCIPAL = "Leve o Fórmula Síndico para sua administradora";
+export const CTA_HEADER = "Leve para sua administradora";
+export const CTA_FINAL = "Conversar sobre o Fórmula Síndico";
+export const CTA_FORM = "Enviar interesse";
+export const CTA_TEXT = CTA_PRINCIPAL;
 
 // WhatsApp da equipe do projeto (não do Maicon).
 export const WHATSAPP_EQUIPE = "5511999999999";
