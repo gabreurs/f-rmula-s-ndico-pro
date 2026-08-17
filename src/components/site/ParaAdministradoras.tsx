@@ -76,7 +76,7 @@ export function ParaAdministradoras() {
                 <span className="block font-display text-3xl text-gold md:mt-8">
                   {p.numero}
                 </span>
-                <h3 className="mt-3 text-lg font-semibold">{p.titulo}</h3>
+                <h3 className="mt-3 text-lg">{p.titulo}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-paper-muted">{p.texto}</p>
               </Reveal>
             ))}

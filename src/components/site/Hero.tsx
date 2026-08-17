@@ -9,7 +9,8 @@ export function Hero() {
         <img
           src={heroBuilding}
           alt=""
-          className="hero-zoom h-full w-full object-cover object-center opacity-45"
+          className="hero-zoom block h-full w-full object-cover object-center opacity-45"
+          decoding="async"
           fetchPriority="high"
         />
       </div>
@@ -72,10 +73,10 @@ export function Hero() {
             className="rise-in grid grid-cols-2 gap-3 lg:grid-cols-1 lg:gap-4"
             style={{ animationDelay: "480ms" }}
           >
-            {BADGES_HERO.map((b, i) => (
+            {BADGES_HERO.slice(0, 4).map((b, i) => (
               <li
                 key={b.titulo}
-                className={`${b.animacao} ${i > 2 ? "hidden lg:block" : ""} group border border-ink-foreground/15 bg-ink/45 px-4 py-4 backdrop-blur-sm transition-colors duration-500 hover:border-gold/70 hover:bg-ink/70`}
+                className={`${b.animacao} ${i > 1 ? "hidden lg:block" : ""} group border border-ink-foreground/15 bg-ink/60 px-4 py-4 transition-colors duration-500 hover:border-gold/70 hover:bg-ink/80`}
               >
                 <p className="rule-label text-gold">{b.titulo}</p>
                 <p className="mt-2 text-xs leading-relaxed text-ink-foreground/70">

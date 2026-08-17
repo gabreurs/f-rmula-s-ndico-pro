@@ -14,6 +14,307 @@ export type Database = {
   }
   public: {
     Tables: {
+      contact_interactions: {
+        Row: {
+          contact_id: string
+          created_at: string
+          descricao: string | null
+          event_id: string | null
+          id: string
+          source: string | null
+          tipo: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          descricao?: string | null
+          event_id?: string | null
+          id?: string
+          source?: string | null
+          tipo: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          descricao?: string | null
+          event_id?: string | null
+          id?: string
+          source?: string | null
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contact_interactions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contact_interactions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contacts: {
+        Row: {
+          administradora: string | null
+          cargo: string | null
+          cidade: string | null
+          consentimento: boolean
+          created_at: string
+          email: string | null
+          email_norm: string | null
+          id: string
+          interesses: string[]
+          nome: string
+          observacoes: string | null
+          perfis: string[]
+          qtd_condominios: number | null
+          source: string
+          source_detail: string | null
+          tags: string[]
+          tipo_sindico: string | null
+          uf: string | null
+          ultima_interacao_em: string
+          updated_at: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          whatsapp: string | null
+          whatsapp_norm: string | null
+        }
+        Insert: {
+          administradora?: string | null
+          cargo?: string | null
+          cidade?: string | null
+          consentimento?: boolean
+          created_at?: string
+          email?: string | null
+          email_norm?: string | null
+          id?: string
+          interesses?: string[]
+          nome: string
+          observacoes?: string | null
+          perfis?: string[]
+          qtd_condominios?: number | null
+          source?: string
+          source_detail?: string | null
+          tags?: string[]
+          tipo_sindico?: string | null
+          uf?: string | null
+          ultima_interacao_em?: string
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          whatsapp?: string | null
+          whatsapp_norm?: string | null
+        }
+        Update: {
+          administradora?: string | null
+          cargo?: string | null
+          cidade?: string | null
+          consentimento?: boolean
+          created_at?: string
+          email?: string | null
+          email_norm?: string | null
+          id?: string
+          interesses?: string[]
+          nome?: string
+          observacoes?: string | null
+          perfis?: string[]
+          qtd_condominios?: number | null
+          source?: string
+          source_detail?: string | null
+          tags?: string[]
+          tipo_sindico?: string | null
+          uf?: string | null
+          ultima_interacao_em?: string
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          whatsapp?: string | null
+          whatsapp_norm?: string | null
+        }
+        Relationships: []
+      }
+      event_participants: {
+        Row: {
+          contact_id: string
+          created_at: string
+          event_id: string
+          id: string
+          observacoes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          event_id: string
+          id?: string
+          observacoes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          event_id?: string
+          id?: string
+          observacoes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_participants_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_participants_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          cidade: string | null
+          created_at: string
+          data: string | null
+          horario: string | null
+          id: string
+          local: string | null
+          modalidade: string
+          nome: string
+          observacoes: string | null
+          partner_id: string | null
+          plataforma_inscricao: string | null
+          slug: string
+          status: string
+          tipo: string
+          uf: string | null
+          updated_at: string
+          url_inscricao: string | null
+        }
+        Insert: {
+          cidade?: string | null
+          created_at?: string
+          data?: string | null
+          horario?: string | null
+          id?: string
+          local?: string | null
+          modalidade?: string
+          nome: string
+          observacoes?: string | null
+          partner_id?: string | null
+          plataforma_inscricao?: string | null
+          slug: string
+          status?: string
+          tipo?: string
+          uf?: string | null
+          updated_at?: string
+          url_inscricao?: string | null
+        }
+        Update: {
+          cidade?: string | null
+          created_at?: string
+          data?: string | null
+          horario?: string | null
+          id?: string
+          local?: string | null
+          modalidade?: string
+          nome?: string
+          observacoes?: string | null
+          partner_id?: string | null
+          plataforma_inscricao?: string | null
+          slug?: string
+          status?: string
+          tipo?: string
+          uf?: string | null
+          updated_at?: string
+          url_inscricao?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      imports: {
+        Row: {
+          arquivo: string | null
+          atualizados: number
+          created_at: string
+          erros: number
+          event_id: string | null
+          id: string
+          ignorados: number
+          novos: number
+          relatorio: Json | null
+          source: string
+          source_detail: string | null
+          total: number
+        }
+        Insert: {
+          arquivo?: string | null
+          atualizados?: number
+          created_at?: string
+          erros?: number
+          event_id?: string | null
+          id?: string
+          ignorados?: number
+          novos?: number
+          relatorio?: Json | null
+          source?: string
+          source_detail?: string | null
+          total?: number
+        }
+        Update: {
+          arquivo?: string | null
+          atualizados?: number
+          created_at?: string
+          erros?: number
+          event_id?: string | null
+          id?: string
+          ignorados?: number
+          novos?: number
+          relatorio?: Json | null
+          source?: string
+          source_detail?: string | null
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "imports_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           administradora: string
@@ -101,6 +402,51 @@ export type Database = {
           status_atualizado_em?: string
           uf?: string
           whatsapp?: string
+        }
+        Relationships: []
+      }
+      partners: {
+        Row: {
+          cidade: string | null
+          created_at: string
+          email: string | null
+          empresa: string
+          id: string
+          observacoes: string | null
+          responsavel: string | null
+          segmento: string | null
+          telefone: string | null
+          tipo_parceria: string | null
+          uf: string | null
+          updated_at: string
+        }
+        Insert: {
+          cidade?: string | null
+          created_at?: string
+          email?: string | null
+          empresa: string
+          id?: string
+          observacoes?: string | null
+          responsavel?: string | null
+          segmento?: string | null
+          telefone?: string | null
+          tipo_parceria?: string | null
+          uf?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cidade?: string | null
+          created_at?: string
+          email?: string | null
+          empresa?: string
+          id?: string
+          observacoes?: string | null
+          responsavel?: string | null
+          segmento?: string | null
+          telefone?: string | null
+          tipo_parceria?: string | null
+          uf?: string | null
+          updated_at?: string
         }
         Relationships: []
       }

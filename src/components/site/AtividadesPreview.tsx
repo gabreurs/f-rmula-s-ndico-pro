@@ -22,7 +22,7 @@ export function AtividadeCard({ a }: { a: Atividade }) {
       )}
       <div className="flex flex-1 flex-col p-7">
         <p className="rule-label text-gold">{a.tipo}</p>
-        <h3 className="mt-3 text-xl font-semibold">{a.titulo}</h3>
+        <h3 className="mt-3 text-xl">{a.titulo}</h3>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.descricao}</p>
         <dl className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
           <div>
