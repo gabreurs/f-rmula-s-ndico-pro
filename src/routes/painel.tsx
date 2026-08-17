@@ -8,6 +8,8 @@ import {
   sairPainel,
   statusPainel,
 } from "@/lib/painel.functions";
+import { guardarToken, limparToken } from "@/lib/painel-token";
+
 import { STATUS_OPTIONS } from "@/lib/formula-sindico";
 import type { Tables } from "@/integrations/supabase/types";
 
