@@ -5,37 +5,44 @@ export const entrarPainel = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { useSession } = await import("@tanstack/react-start/server");
     const { createHash, timingSafeEqual } = await import("node:crypto");
-    const { sessionConfig } = await import("./admin-session.server");
+    const { sessionConfig, criarTokenPainel } = await import("./admin-session.server");
     const esperada = process.env["PAINEL_SENHA"];
-    if (!esperada) return { ok: false as const };
+    if (!esperada) return { ok: false as const, token: null };
     const a = createHash("sha256").update(data.senha ?? "", "utf8").digest();
     const b = createHash("sha256").update(esperada, "utf8").digest();
     if (!data.senha || !timingSafeEqual(a, b)) {
-      return { ok: false as const };
+      return { ok: false as const, token: null };
     }
-    const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
-    await session.update({ unlocked: true });
-    return { ok: true as const };
+    try {
+      const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
+      await session.update({ unlocked: true });
+    } catch {
+      /* cookie pode ser bloqueado no preview; o token cobre esse caso */
+    }
+    return { ok: true as const, token: await criarTokenPainel() };
   });
 
 export const sairPainel = createServerFn({ method: "POST" }).handler(async () => {
   const { useSession } = await import("@tanstack/react-start/server");
   const { sessionConfig } = await import("./admin-session.server");
-  const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
-  await session.clear();
+  try {
+    const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
+    await session.clear();
+  } catch {
+    /* ignore */
+  }
   return { ok: true as const };
 });
 
 export const statusPainel = createServerFn({ method: "GET" }).handler(async () => {
-  const { useSession } = await import("@tanstack/react-start/server");
-  const { sessionConfig } = await import("./admin-session.server");
-  const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
-  return { unlocked: Boolean(session.data.unlocked) };
+  const { sessaoLiberada } = await import("./admin-session.server");
+  return { unlocked: await sessaoLiberada() };
 });
 
 export const listarLeads = createServerFn({ method: "GET" }).handler(async () => {
   const { requireUnlocked } = await import("./admin-session.server");
   await requireUnlocked();
+
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data, error } = await supabaseAdmin
     .from("leads")

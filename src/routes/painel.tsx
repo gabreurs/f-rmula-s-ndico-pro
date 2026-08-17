@@ -8,6 +8,8 @@ import {
   sairPainel,
   statusPainel,
 } from "@/lib/painel.functions";
+import { guardarToken, limparToken } from "@/lib/painel-token";
+
 import { STATUS_OPTIONS } from "@/lib/formula-sindico";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -70,11 +72,12 @@ function Painel() {
   async function onEntrar(e: FormEvent) {
     e.preventDefault();
     setErro(null);
-    const { ok } = await entrar({ data: { senha } });
+    const { ok, token } = await entrar({ data: { senha } });
     if (!ok) {
       setErro("Senha incorreta.");
       return;
     }
+    if (token) guardarToken(token);
     setLiberado(true);
     setSenha("");
     await buscar();
@@ -138,6 +141,7 @@ function Painel() {
           <button
             onClick={async () => {
               await sair();
+    limparToken();
               setLiberado(false);
               setLeads([]);
             }}
