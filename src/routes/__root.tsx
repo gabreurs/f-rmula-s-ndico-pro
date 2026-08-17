@@ -77,13 +77,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Fórmula Síndico — curso gratuito para síndicos" },
+      {
+        title:
+          "Fórmula Síndico | Formação e desenvolvimento para o mercado condominial",
+      },
       {
         name: "description",
         content:
-          "Curso gratuito de capacitação para síndicos, com Maicon Guedes, em parceria com administradoras de condomínio.",
+          "Cursos, encontros, conteúdos e experiências para síndicos e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.",
       },
       { name: "author", content: "Maicon Guedes" },
+      { property: "og:site_name", content: "Fórmula Síndico" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -114,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>

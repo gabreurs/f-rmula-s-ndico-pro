@@ -1,16 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Hero } from "@/components/landing/Hero";
-import { Programa } from "@/components/landing/Programa";
-import { SobreMaicon } from "@/components/landing/SobreMaicon";
-import { Beneficios } from "@/components/landing/Beneficios";
-import { ComoFunciona } from "@/components/landing/ComoFunciona";
-import { Faq } from "@/components/landing/Faq";
+import { Header } from "@/components/site/Header";
+import { Hero } from "@/components/site/Hero";
+import { Manifesto } from "@/components/site/Manifesto";
+import { Conceitos } from "@/components/site/Conceitos";
+import { Formatos } from "@/components/site/Formatos";
+import { ParaAdministradoras } from "@/components/site/ParaAdministradoras";
+import { ParaSindicos } from "@/components/site/ParaSindicos";
+import { AtividadesPreview } from "@/components/site/AtividadesPreview";
+import { MateriaisPreview } from "@/components/site/MateriaisPreview";
+import { Maicon } from "@/components/site/Maicon";
+import { Futuro } from "@/components/site/Futuro";
+import { Parceiros } from "@/components/site/Parceiros";
+import { Faq } from "@/components/site/Faq";
+import { CtaFinal } from "@/components/site/CtaFinal";
+import { Footer } from "@/components/site/Footer";
+import { Reveal } from "@/components/site/Reveal";
 import { FormularioLead } from "@/components/landing/FormularioLead";
-import { CTA_TEXT } from "@/lib/formula-sindico";
 
-const titulo = "Fórmula Síndico — curso gratuito para a sua carteira de síndicos";
+const titulo =
+  "Fórmula Síndico | Formação e desenvolvimento para o mercado condominial";
 const descricao =
-  "Programa gratuito de capacitação de síndicos com Maicon Guedes, em parceria com administradoras de condomínio. Sem custo, turmas híbridas ou online.";
+  "Cursos, encontros, conteúdos e experiências para síndicos e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,7 +30,23 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: titulo },
       { property: "og:description", content: descricao },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: titulo },
+      { name: "twitter:description", content: descricao },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "EducationalOrganization",
+          name: "Fórmula Síndico",
+          description: descricao,
+          founder: { "@type": "Person", name: "Maicon Guedes" },
+        }),
+      },
     ],
   }),
   component: Index,
@@ -28,38 +54,51 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main>
-      <Hero />
-      <Programa />
-      <SobreMaicon />
-      <Beneficios />
-      <ComoFunciona />
-      <Faq />
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <Manifesto />
+        <Conceitos />
+        <Formatos />
+        <ParaAdministradoras />
+        <ParaSindicos />
+        <AtividadesPreview />
+        <MateriaisPreview />
+        <Maicon />
+        <Futuro />
+        <Parceiros />
+        <Faq />
+        <CtaFinal />
 
-      <section id="conversa" className="scroll-mt-20 border-t border-border bg-surface/40">
-        <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow">Solicitar uma conversa</p>
-            <h2 className="mt-4 text-3xl md:text-4xl">{CTA_TEXT}</h2>
-            <p className="mt-5 text-muted-foreground">
-              Preencha as informações da sua administradora. Nossa equipe vai
-              analisar o interesse, organizar os dados iniciais e, havendo
-              aderência ao programa, agendar uma conversa com Maicon Guedes para
-              definir formato, viabilidade e próximos passos da turma.
-            </p>
+        <section id="conversa" className="scroll-mt-24 bg-surface text-foreground">
+          <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-32">
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
+              <div>
+                <Reveal>
+                  <p className="rule-label text-gold">Vamos conversar</p>
+                </Reveal>
+                <Reveal delay={80}>
+                  <h2 className="display-lg mt-6 max-w-[16ch]">
+                    Vamos conversar sobre sua próxima experiência com a clientela
+                    de síndicos.
+                  </h2>
+                </Reveal>
+                <Reveal delay={140} as="p" className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground">
+                  Conte um pouco sobre a administradora. Nossa equipe analisa as
+                  informações, entende o objetivo e organiza uma conversa com
+                  Maicon Guedes para definir formato, viabilidade e próximos
+                  passos.
+                </Reveal>
+              </div>
+              <Reveal delay={180}>
+                <FormularioLead />
+              </Reveal>
+            </div>
           </div>
-          <div className="mt-12">
-            <FormularioLead />
-          </div>
-        </div>
-      </section>
-
-      <footer className="mx-auto max-w-6xl px-6 py-12 text-sm text-muted-foreground">
-        <p>
-          Fórmula Síndico — formação em Direito e Gestão Condominial com Maicon
-          Guedes.
-        </p>
-      </footer>
-    </main>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }
