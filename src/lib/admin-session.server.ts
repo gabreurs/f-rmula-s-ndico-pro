@@ -10,7 +10,8 @@ export function sessionConfig() {
     cookie: {
       httpOnly: true,
       secure: true,
-      sameSite: "lax" as const,
+      // "none" para o cookie funcionar dentro do preview em iframe (cross-site).
+      sameSite: "none" as const,
       path: "/",
     },
   };
