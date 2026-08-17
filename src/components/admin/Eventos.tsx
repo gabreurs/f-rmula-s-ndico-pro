@@ -64,7 +64,7 @@ export function Eventos() {
     };
     for (const k of Object.keys(valores)) if (valores[k] === "") valores[k] = null;
     try {
-      await salvar({ data: { id: editando ?? undefined, valores } });
+      await salvar({ data: editando ? { id: editando, valores } : { valores } });
       setForm(vazio);
       setEditando(null);
       await buscar();
