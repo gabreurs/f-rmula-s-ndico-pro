@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, type FormEvent } from "react";
+import { guardarToken, limparToken } from "@/lib/painel-token";
 import { entrarPainel, sairPainel, statusPainel } from "@/lib/painel.functions";
 import { adminResumo } from "@/lib/crm.functions";
 import { Contatos } from "@/components/admin/Contatos";
@@ -66,6 +67,7 @@ function Admin() {
     setErro(null);
     const r = await entrar({ data: { senha } });
     if (r.ok) {
+      if (r.token) guardarToken(r.token);
       setLiberado(true);
       setSenha("");
     } else {
@@ -121,6 +123,7 @@ function Admin() {
               className="text-muted-foreground hover:text-gold"
               onClick={async () => {
                 await sair();
+    limparToken();
                 setLiberado(false);
               }}
             >
