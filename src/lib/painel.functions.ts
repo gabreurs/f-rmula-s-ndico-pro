@@ -57,6 +57,7 @@ type PatchLead = {
 export const atualizarLead = createServerFn({ method: "POST" })
   .inputValidator((data: { id: string } & PatchLead) => data)
   .handler(async ({ data }) => {
+    const { requireUnlocked } = await import("./admin-session.server");
     await requireUnlocked();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { id, ...campos } = data;
