@@ -131,7 +131,8 @@ export async function upsertContato(entrada: EntradaContato): Promise<ResultadoU
 
   const { error } = await supabaseAdmin
     .from("contacts")
-    .update(patch)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .update(patch as any)
     .eq("id", existente.id);
   if (error) throw new Error(error.message);
   return { id: existente.id, criado: false };
