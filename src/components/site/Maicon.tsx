@@ -6,12 +6,14 @@ export function Maicon() {
   return (
     <section id="maicon" className="scroll-mt-24 bg-paper text-paper-foreground">
       <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-        <div className="relative min-h-[55vh] overflow-hidden lg:min-h-[85vh]">
+        <div className="relative isolate min-h-[55vh] overflow-hidden border-0 bg-ink leading-none lg:min-h-[85vh]">
           <img
             src={maiconFoto.url}
             alt="Maicon Guedes, especialista em mercado condominial"
             loading="lazy"
-            className="h-full w-full object-cover object-top transition-transform duration-[1400ms] ease-out hover:scale-[1.03]"
+            decoding="async"
+            sizes="(min-width: 1024px) 45vw, 100vw"
+            className="block h-full w-full border-0 object-cover object-top align-bottom"
           />
         </div>
 

@@ -52,7 +52,7 @@ export function MateriaisPreview() {
                   {MATERIAIS.map((m) => (
                     <li key={m.slug} className="bg-surface p-6">
                       <p className="rule-label text-gold">{m.tipo}</p>
-                      <h3 className="mt-2 text-lg font-semibold">{m.titulo}</h3>
+                      <h3 className="mt-2 text-lg">{m.titulo}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">{m.descricao}</p>
                     </li>
                   ))}
