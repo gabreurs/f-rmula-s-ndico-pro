@@ -6,6 +6,7 @@ import { Conceitos } from "@/components/site/Conceitos";
 import { Formatos } from "@/components/site/Formatos";
 import { ParaAdministradoras } from "@/components/site/ParaAdministradoras";
 import { ParaSindicos } from "@/components/site/ParaSindicos";
+import { CaptacaoSindicos } from "@/components/site/CaptacaoSindicos";
 import { AtividadesPreview } from "@/components/site/AtividadesPreview";
 import { MateriaisPreview } from "@/components/site/MateriaisPreview";
 import { Maicon } from "@/components/site/Maicon";
@@ -63,6 +64,7 @@ function Index() {
         <Formatos />
         <ParaAdministradoras />
         <ParaSindicos />
+        <CaptacaoSindicos />
         <AtividadesPreview />
         <MateriaisPreview />
         <Maicon />

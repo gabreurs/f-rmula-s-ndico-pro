@@ -1,3 +1,5 @@
+import { WHATSAPP_EQUIPE_URL } from "@/lib/formula-sindico";
+
 export function Footer() {
   return (
     <footer className="bg-ink text-ink-foreground">
@@ -16,8 +18,22 @@ export function Footer() {
           <a href="/atividades" className="link-underline">Atividades</a>
           <a href="/#materiais" className="link-underline">Materiais</a>
           <a href="/#administradoras" className="link-underline">Para administradoras</a>
+          <a href="/#acompanhar" className="link-underline">Quero acompanhar</a>
           <a href="/#maicon" className="link-underline">Maicon Guedes</a>
         </nav>
+      </div>
+      <div className="gutter mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-4 border-t border-ink-foreground/12 py-8">
+        <p className="text-sm text-ink-foreground/60">
+          Quer apoiar uma atividade do Fórmula Síndico?
+        </p>
+        <a
+          href={WHATSAPP_EQUIPE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="border border-ink-foreground/25 px-5 py-3 text-sm transition-colors hover:border-gold hover:text-gold"
+        >
+          Conversar sobre parceria
+        </a>
       </div>
     </footer>
   );
