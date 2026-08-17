@@ -1,62 +1,40 @@
 import { createServerFn } from "@tanstack/react-start";
-import { useSession } from "@tanstack/react-start/server";
-import { createHash, timingSafeEqual } from "node:crypto";
-
-type PainelSession = { unlocked?: boolean };
-
-function sessionConfig() {
-  return {
-    password: process.env["SESSION_SECRET"]!,
-    name: "painel-formula-sindico",
-    maxAge: 60 * 60 * 8,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax" as const,
-      path: "/",
-    },
-  };
-}
-
-function matches(input: string, expected: string) {
-  const a = createHash("sha256").update(input, "utf8").digest();
-  const b = createHash("sha256").update(expected, "utf8").digest();
-  return timingSafeEqual(a, b);
-}
-
-async function requireUnlocked() {
-  const session = await useSession<PainelSession>(sessionConfig());
-  if (!session.data.unlocked) {
-    throw new Error("NAO_AUTORIZADO");
-  }
-  return session;
-}
 
 export const entrarPainel = createServerFn({ method: "POST" })
   .inputValidator((data: { senha: string }) => data)
   .handler(async ({ data }) => {
+    const { useSession } = await import("@tanstack/react-start/server");
+    const { createHash, timingSafeEqual } = await import("node:crypto");
+    const { sessionConfig } = await import("./admin-session.server");
     const esperada = process.env["PAINEL_SENHA"];
     if (!esperada) return { ok: false as const };
-    if (!data.senha || !matches(data.senha, esperada)) {
+    const a = createHash("sha256").update(data.senha ?? "", "utf8").digest();
+    const b = createHash("sha256").update(esperada, "utf8").digest();
+    if (!data.senha || !timingSafeEqual(a, b)) {
       return { ok: false as const };
     }
-    const session = await useSession<PainelSession>(sessionConfig());
+    const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
     await session.update({ unlocked: true });
     return { ok: true as const };
   });
 
 export const sairPainel = createServerFn({ method: "POST" }).handler(async () => {
-  const session = await useSession<PainelSession>(sessionConfig());
+  const { useSession } = await import("@tanstack/react-start/server");
+  const { sessionConfig } = await import("./admin-session.server");
+  const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
   await session.clear();
   return { ok: true as const };
 });
 
 export const statusPainel = createServerFn({ method: "GET" }).handler(async () => {
-  const session = await useSession<PainelSession>(sessionConfig());
+  const { useSession } = await import("@tanstack/react-start/server");
+  const { sessionConfig } = await import("./admin-session.server");
+  const session = await useSession<{ unlocked?: boolean }>(sessionConfig());
   return { unlocked: Boolean(session.data.unlocked) };
 });
 
 export const listarLeads = createServerFn({ method: "GET" }).handler(async () => {
+  const { requireUnlocked } = await import("./admin-session.server");
   await requireUnlocked();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data, error } = await supabaseAdmin
