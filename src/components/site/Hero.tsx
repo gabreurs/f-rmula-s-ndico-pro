@@ -1,6 +1,6 @@
 import heroBuilding from "@/assets/hero-building.jpg";
 import { BADGES_HERO } from "@/data/ecossistema";
-import { CTA_PRINCIPAL } from "@/lib/formula-sindico";
+import { CTA_ADMINISTRADORA, CTA_SINDICO } from "@/lib/formula-sindico";
 
 export function Hero() {
   return (
