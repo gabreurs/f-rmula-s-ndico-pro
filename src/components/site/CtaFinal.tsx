@@ -20,35 +20,62 @@ export function CtaFinal() {
 
       <div className="mx-auto w-full max-w-[1600px] px-5 py-24 md:px-10 md:py-32">
         <Reveal>
-          <h2 className="display-hero max-w-[15ch]">
-            Leve novas experiências para sua clientela de síndicos.
+          <h2 className="display-hero max-w-[16ch]">
+            Qual é o seu próximo passo no Fórmula Síndico?
           </h2>
         </Reveal>
         <Reveal delay={120} as="p" className="mt-8 max-w-2xl text-base leading-relaxed text-ink-foreground/70 md:text-lg">
-          Vamos construir um formato que faça sentido para sua administradora e
-          para os profissionais que ela atende.
+          O Fórmula Síndico pode chegar até você de duas formas: diretamente,
+          como profissional, ou através da administradora que você representa.
         </Reveal>
-        <Reveal delay={200}>
-          <div className="mt-12 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="mt-14 grid gap-px bg-ink-foreground/12 md:grid-cols-2">
+          <Reveal as="div" delay={160} className="bg-ink p-8 md:p-12">
+            <p className="rule-label text-gold">Sou síndico</p>
+            <h3 className="display-lg mt-5">Quero participar</h3>
+            <p className="mt-4 max-w-[40ch] text-sm leading-relaxed text-ink-foreground/70">
+              Cursos, encontros, mentorias e materiais para evoluir sua atuação
+              no mercado condominial.
+            </p>
             <a
               href="#conversa"
-              className="group inline-flex items-center justify-center gap-3 bg-gold px-8 py-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-gold-soft"
+              className="group mt-8 inline-flex items-center gap-3 bg-gold px-7 py-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-gold-soft"
             >
-              {CTA_FINAL}
+              Quero participar do Fórmula Síndico
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 &#8594;
               </span>
             </a>
-            <a
-              href={WHATSAPP_EQUIPE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center border border-ink-foreground/25 px-8 py-4 text-sm font-medium transition-colors hover:border-gold hover:text-gold"
-            >
-              Falar pelo WhatsApp
-            </a>
-          </div>
-        </Reveal>
+          </Reveal>
+          <Reveal as="div" delay={240} className="bg-ink p-8 md:p-12">
+            <p className="rule-label text-gold">Represento uma administradora</p>
+            <h3 className="display-lg mt-5">
+              Quero levar o Fórmula para minha clientela
+            </h3>
+            <p className="mt-4 max-w-[40ch] text-sm leading-relaxed text-ink-foreground/70">
+              Formação, experiências e novos pontos de relacionamento com os
+              síndicos atendidos pela sua administradora.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#conversa"
+                className="group inline-flex items-center gap-3 border border-ink-foreground/25 px-7 py-4 text-sm font-medium transition-colors hover:border-gold hover:text-gold"
+              >
+                {CTA_FINAL}
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  &#8594;
+                </span>
+              </a>
+              <a
+                href={WHATSAPP_EQUIPE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center border border-ink-foreground/25 px-7 py-4 text-sm font-medium transition-colors hover:border-gold hover:text-gold"
+              >
+                Falar pelo WhatsApp
+              </a>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
