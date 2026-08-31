@@ -23,8 +23,9 @@ export function ParaAdministradoras() {
           </div>
           <div className="max-w-xl space-y-6 self-end text-base leading-relaxed text-paper-muted md:text-lg">
             <Reveal delay={140} as="p">
-              Leve formação, novas experiências e conversas relevantes para os
-              síndicos atendidos pela sua administradora.
+              Leve cursos, encontros e experiências relevantes para os síndicos
+              atendidos pela sua administradora e crie novos pontos de
+              relacionamento, desenvolvimento e aproximação.
             </Reveal>
             <Reveal delay={200} as="p">
               O Fórmula Síndico pode assumir diferentes formatos de acordo com o
