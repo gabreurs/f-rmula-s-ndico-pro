@@ -1,6 +1,6 @@
 import heroBuilding from "@/assets/hero-building.jpg";
 import { BADGES_HERO } from "@/data/ecossistema";
-import { CTA_PRINCIPAL } from "@/lib/formula-sindico";
+import { CTA_ADMINISTRADORA, CTA_SINDICO } from "@/lib/formula-sindico";
 
 export function Hero() {
   return (
@@ -33,16 +33,17 @@ export function Hero() {
               className="rise-in display-hero mt-6 max-w-[16ch]"
               style={{ animationDelay: "160ms" }}
             >
-              Conhecimento para quem vive a{" "}
+              Formação e desenvolvimento para quem vive a{" "}
               <span className="text-gradient-gold">gestão de verdade.</span>
             </h1>
             <p
               className="rise-in mt-8 max-w-xl text-base leading-relaxed text-ink-foreground/75 md:text-lg"
               style={{ animationDelay: "280ms" }}
             >
-              Cursos, encontros e experiências que conectam síndicos,
-              administradoras e especialistas a uma visão mais profissional do
-              mercado condominial.
+              Cursos, encontros, conteúdos e experiências para síndicos
+              profissionais que querem evoluir sua atuação — e para
+              administradoras que desejam levar formação à sua clientela de
+              síndicos.
             </p>
             <div
               className="rise-in mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
@@ -52,16 +53,16 @@ export function Hero() {
                 href="#conversa"
                 className="group inline-flex items-center justify-center gap-3 bg-gold px-7 py-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-gold-soft"
               >
-                {CTA_PRINCIPAL}
+                {CTA_SINDICO}
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   &#8594;
                 </span>
               </a>
               <a
-                href="#formatos"
+                href="#administradoras"
                 className="group inline-flex items-center justify-center gap-3 border border-ink-foreground/25 px-7 py-4 text-sm font-medium text-ink-foreground transition-colors hover:border-gold hover:text-gold"
               >
-                Conheça as atividades
+                {CTA_ADMINISTRADORA}
                 <span className="transition-transform duration-300 group-hover:translate-y-0.5">
                   &#8595;
                 </span>

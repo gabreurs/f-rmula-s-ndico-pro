@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { AtividadeCard, AtividadesVazio } from "@/components/site/AtividadesPreview";
 import { ATIVIDADES } from "@/data/ecossistema";
+import { urlAbsoluta } from "@/lib/site";
 
 const titulo = "Agenda Fórmula Síndico | Cursos, encontros e experiências";
 const descricao =
@@ -18,12 +19,12 @@ export const Route = createFileRoute("/atividades")({
       { property: "og:title", content: titulo },
       { property: "og:description", content: descricao },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/atividades" },
+      { property: "og:url", content: urlAbsoluta("/atividades") },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: titulo },
       { name: "twitter:description", content: descricao },
     ],
-    links: [{ rel: "canonical", href: "/atividades" }],
+    links: [{ rel: "canonical", href: urlAbsoluta("/atividades") }],
   }),
   component: AtividadesPage,
 });

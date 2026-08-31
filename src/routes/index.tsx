@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SITE_URL, urlAbsoluta } from "@/lib/site";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { Manifesto } from "@/components/site/Manifesto";
@@ -6,7 +7,6 @@ import { Conceitos } from "@/components/site/Conceitos";
 import { Formatos } from "@/components/site/Formatos";
 import { ParaAdministradoras } from "@/components/site/ParaAdministradoras";
 import { ParaSindicos } from "@/components/site/ParaSindicos";
-import { CaptacaoSindicos } from "@/components/site/CaptacaoSindicos";
 import { AtividadesPreview } from "@/components/site/AtividadesPreview";
 import { MateriaisPreview } from "@/components/site/MateriaisPreview";
 import { Maicon } from "@/components/site/Maicon";
@@ -18,10 +18,9 @@ import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { FormularioLead } from "@/components/landing/FormularioLead";
 
-const titulo =
-  "Fórmula Síndico | Formação e desenvolvimento para o mercado condominial";
+const titulo = "Fórmula Síndico | Formação e desenvolvimento para síndicos";
 const descricao =
-  "Cursos, encontros, conteúdos e experiências para síndicos e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.";
+  "Cursos, encontros, conteúdos e experiências para síndicos profissionais e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,12 +30,12 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: titulo },
       { property: "og:description", content: descricao },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: urlAbsoluta("/") },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: titulo },
       { name: "twitter:description", content: descricao },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: urlAbsoluta("/") }],
     scripts: [
       {
         type: "application/ld+json",
@@ -45,6 +44,7 @@ export const Route = createFileRoute("/")({
           "@type": "EducationalOrganization",
           name: "Fórmula Síndico",
           description: descricao,
+          url: SITE_URL,
           founder: { "@type": "Person", name: "Maicon Guedes" },
         }),
       },
@@ -64,7 +64,6 @@ function Index() {
         <Formatos />
         <ParaAdministradoras />
         <ParaSindicos />
-        <CaptacaoSindicos />
         <AtividadesPreview />
         <MateriaisPreview />
         <Maicon />
@@ -81,16 +80,15 @@ function Index() {
                   <p className="rule-label text-gold">Vamos conversar</p>
                 </Reveal>
                 <Reveal delay={80}>
-                  <h2 className="display-lg mt-6 max-w-[16ch]">
-                    Vamos conversar sobre sua próxima experiência com a clientela
-                    de síndicos.
+                  <h2 className="display-lg mt-6 max-w-[18ch]">
+                    Um único formulário para entrar no Fórmula Síndico.
                   </h2>
                 </Reveal>
                 <Reveal delay={140} as="p" className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground">
-                  Conte um pouco sobre a administradora. Nossa equipe analisa as
-                  informações, entende o objetivo e organiza uma conversa com
-                  Maicon Guedes para definir formato, viabilidade e próximos
-                  passos.
+                  Seja você um síndico profissional, uma administradora ou
+                  outro profissional do mercado condominial: conte seu interesse
+                  e nossa equipe retorna com os próximos passos — atividades,
+                  mentorias, materiais ou uma conversa com Maicon Guedes.
                 </Reveal>
               </div>
               <Reveal delay={180}>

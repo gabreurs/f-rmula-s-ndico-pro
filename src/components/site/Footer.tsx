@@ -17,8 +17,9 @@ export function Footer() {
           <a href="/#o-formula" className="link-underline">O Fórmula</a>
           <a href="/atividades" className="link-underline">Atividades</a>
           <a href="/#materiais" className="link-underline">Materiais</a>
+          <a href="/#sindicos" className="link-underline">Para síndicos</a>
           <a href="/#administradoras" className="link-underline">Para administradoras</a>
-          <a href="/#acompanhar" className="link-underline">Quero acompanhar</a>
+          <a href="/#conversa" className="link-underline">Quero participar</a>
           <a href="/#maicon" className="link-underline">Maicon Guedes</a>
         </nav>
       </div>

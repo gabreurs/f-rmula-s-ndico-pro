@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/site/Reveal";
 import { BENEFICIOS_ADMINISTRADORAS, PASSOS_ADMINISTRADORAS } from "@/data/ecossistema";
-import { CTA_PRINCIPAL } from "@/lib/formula-sindico";
+
 
 export function ParaAdministradoras() {
   return (
@@ -15,15 +15,17 @@ export function ParaAdministradoras() {
               <p className="rule-label text-paper-muted">Para administradoras</p>
             </Reveal>
             <Reveal delay={80}>
-              <h2 className="display-xl mt-7 max-w-[15ch]">
-                Conhecimento também fortalece a relação com sua clientela.
+              <h2 className="display-xl mt-7 max-w-[16ch]">
+                Formação também fortalece a relação com sua clientela de
+                síndicos.
               </h2>
             </Reveal>
           </div>
           <div className="max-w-xl space-y-6 self-end text-base leading-relaxed text-paper-muted md:text-lg">
             <Reveal delay={140} as="p">
-              Leve formação, novas experiências e conversas relevantes para os
-              síndicos atendidos pela sua administradora.
+              Leve cursos, encontros e experiências relevantes para os síndicos
+              atendidos pela sua administradora e crie novos pontos de
+              relacionamento, desenvolvimento e aproximação.
             </Reveal>
             <Reveal delay={200} as="p">
               O Fórmula Síndico pode assumir diferentes formatos de acordo com o
@@ -35,7 +37,7 @@ export function ParaAdministradoras() {
                 href="#conversa"
                 className="group inline-flex items-center gap-3 bg-paper-foreground px-7 py-4 text-sm font-semibold text-paper transition-colors hover:bg-gold hover:text-primary-foreground"
               >
-                {CTA_PRINCIPAL}
+                Quero levar o Fórmula Síndico para minha administradora
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   &#8594;
                 </span>
