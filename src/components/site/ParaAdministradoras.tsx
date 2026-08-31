@@ -37,7 +37,7 @@ export function ParaAdministradoras() {
                 href="#conversa"
                 className="group inline-flex items-center gap-3 bg-paper-foreground px-7 py-4 text-sm font-semibold text-paper transition-colors hover:bg-gold hover:text-primary-foreground"
               >
-                {CTA_PRINCIPAL}
+                Quero levar o Fórmula Síndico para minha administradora
                 <span className="transition-transform duration-300 group-hover:translate-x-1">
                   &#8594;
                 </span>
