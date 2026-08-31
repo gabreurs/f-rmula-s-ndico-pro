@@ -1,6 +1,77 @@
 import { createServerFn } from "@tanstack/react-start";
-import { contatoPublicoSchema } from "./crm-schemas";
+import { contatoPublicoSchema, leadSiteSchema } from "./crm-schemas";
 import type { LinhaBruta } from "./crm.server";
+
+const PERFIL_LABEL: Record<string, string> = {
+  sindico: "Síndico profissional",
+  administradora: "Administradora de condomínios",
+  outro: "Outro profissional do mercado condominial",
+};
+
+/**
+ * Entrada única do site (síndicos, administradoras e outros perfis).
+ * Reutiliza a base central de contatos e, para administradoras,
+ * alimenta também o pipeline comercial já existente em `leads`.
+ */
+export const enviarLeadSite = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => leadSiteSchema.parse(data))
+  .handler(async ({ data }) => {
+    const { upsertContato, registrarInteracao } = await import("./crm.server");
+    const uf = data.uf.toUpperCase();
+    const perfil = data.perfil === "administradora" ? "administradora" : "sindico";
+
+    const { id, criado } = await upsertContato({
+      nome: data.nome,
+      email: data.email,
+      whatsapp: data.whatsapp,
+      cidade: data.cidade,
+      uf,
+      perfis: [perfil],
+      administradora: data.empresa ?? null,
+      cargo: data.cargo ?? null,
+      qtd_condominios: data.qtd_condominios ?? null,
+      interesses: [data.interesse],
+      source: "Site Fórmula Síndico",
+      source_detail: `Formulário do site — ${PERFIL_LABEL[data.perfil]}`,
+      observacoes: data.mensagem ?? null,
+      consentimento: true,
+      utm_source: data.utm_source ?? null,
+      utm_medium: data.utm_medium ?? null,
+      utm_campaign: data.utm_campaign ?? null,
+      utm_content: data.utm_content ?? null,
+      utm_term: data.utm_term ?? null,
+    });
+
+    await registrarInteracao({
+      contact_id: id,
+      tipo: criado ? "cadastro" : "informacoes",
+      descricao: `${PERFIL_LABEL[data.perfil]} — interesse: ${data.interesse}`,
+      source: "Site Fórmula Síndico",
+    });
+
+    if (data.perfil === "administradora") {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      await supabaseAdmin.from("leads").insert({
+        nome_responsavel: data.nome,
+        administradora: data.empresa || data.nome,
+        cargo: data.cargo ?? null,
+        cidade: data.cidade,
+        uf,
+        whatsapp: data.whatsapp,
+        email: data.email,
+        qtd_condominios: data.qtd_condominios ?? null,
+        qtd_sindicos: data.qtd_sindicos ?? null,
+        observacoes_lead: [`Interesse: ${data.interesse}`, data.mensagem]
+          .filter(Boolean)
+          .join(" — "),
+        origem: "Site Fórmula Síndico",
+        origem_atribuida: data.utm_source || "site",
+        status: "novo_lead",
+      });
+    }
+
+    return { ok: true as const };
+  });
 
 /** Público: entrada de síndicos/interessados na base central. */
 export const enviarContatoPublico = createServerFn({ method: "POST" })
