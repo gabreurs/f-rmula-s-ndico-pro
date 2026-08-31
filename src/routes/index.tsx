@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SITE_URL, urlAbsoluta } from "@/lib/site";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { Manifesto } from "@/components/site/Manifesto";
@@ -6,7 +7,6 @@ import { Conceitos } from "@/components/site/Conceitos";
 import { Formatos } from "@/components/site/Formatos";
 import { ParaAdministradoras } from "@/components/site/ParaAdministradoras";
 import { ParaSindicos } from "@/components/site/ParaSindicos";
-import { CaptacaoSindicos } from "@/components/site/CaptacaoSindicos";
 import { AtividadesPreview } from "@/components/site/AtividadesPreview";
 import { MateriaisPreview } from "@/components/site/MateriaisPreview";
 import { Maicon } from "@/components/site/Maicon";
@@ -30,12 +30,12 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: titulo },
       { property: "og:description", content: descricao },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: urlAbsoluta("/") },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: titulo },
       { name: "twitter:description", content: descricao },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: urlAbsoluta("/") }],
     scripts: [
       {
         type: "application/ld+json",
@@ -44,6 +44,7 @@ export const Route = createFileRoute("/")({
           "@type": "EducationalOrganization",
           name: "Fórmula Síndico",
           description: descricao,
+          url: SITE_URL,
           founder: { "@type": "Person", name: "Maicon Guedes" },
         }),
       },
@@ -63,7 +64,6 @@ function Index() {
         <Formatos />
         <ParaAdministradoras />
         <ParaSindicos />
-        <CaptacaoSindicos />
         <AtividadesPreview />
         <MateriaisPreview />
         <Maicon />

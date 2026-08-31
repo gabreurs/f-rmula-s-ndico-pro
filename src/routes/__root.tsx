@@ -79,12 +79,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
         title:
-          "Fórmula Síndico | Formação e desenvolvimento para o mercado condominial",
+          "Fórmula Síndico | Formação e desenvolvimento para síndicos",
       },
       {
         name: "description",
         content:
-          "Cursos, encontros, conteúdos e experiências para síndicos e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.",
+          "Cursos, encontros, conteúdos e experiências para síndicos profissionais e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.",
       },
       { name: "author", content: "Maicon Guedes" },
       { property: "og:site_name", content: "Fórmula Síndico" },
