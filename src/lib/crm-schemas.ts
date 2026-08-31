@@ -23,6 +23,29 @@ export const contatoPublicoSchema = z.object({
 
 export type ContatoPublico = z.infer<typeof contatoPublicoSchema>;
 
+/** Formulário único do site: síndicos, administradoras e outros perfis. */
+export const leadSiteSchema = z.object({
+  nome: texto(120).min(2, "Informe seu nome."),
+  whatsapp: texto(30).refine((v) => v.replace(/\D/g, "").length >= 10, "WhatsApp inválido."),
+  email: texto(180).email("E-mail inválido."),
+  perfil: z.enum(["sindico", "administradora", "outro"]),
+  empresa: texto(160).optional().nullable(),
+  cargo: texto(120).optional().nullable(),
+  qtd_condominios: z.number().int().min(0).max(99999).optional().nullable(),
+  qtd_sindicos: z.number().int().min(0).max(99999).optional().nullable(),
+  cidade: texto(120).min(2, "Informe a cidade."),
+  uf: texto(2).length(2, "Selecione o estado."),
+  interesse: texto(80).min(2, "Selecione um interesse."),
+  mensagem: texto(1500).optional().nullable(),
+  utm_source: texto(180).optional().nullable(),
+  utm_medium: texto(180).optional().nullable(),
+  utm_campaign: texto(180).optional().nullable(),
+  utm_content: texto(180).optional().nullable(),
+  utm_term: texto(180).optional().nullable(),
+});
+
+export type LeadSite = z.infer<typeof leadSiteSchema>;
+
 export const linhaImportacaoSchema = z.object({
   nome: texto(160).optional().nullable(),
   email: texto(180).optional().nullable(),
