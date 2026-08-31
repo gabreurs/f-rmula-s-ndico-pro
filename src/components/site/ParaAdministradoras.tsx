@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/site/Reveal";
 import { BENEFICIOS_ADMINISTRADORAS, PASSOS_ADMINISTRADORAS } from "@/data/ecossistema";
-import { CTA_PRINCIPAL } from "@/lib/formula-sindico";
+
 
 export function ParaAdministradoras() {
   return (
