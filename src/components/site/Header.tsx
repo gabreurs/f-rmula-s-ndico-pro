@@ -56,7 +56,7 @@ export function Header() {
           href="/#conversa"
           className="shrink-0 border border-gold/60 px-4 py-2 text-[0.7rem] uppercase tracking-[0.14em] text-gold lg:hidden"
         >
-          Falar com a equipe
+          Quero participar
         </a>
       </div>
     </header>
