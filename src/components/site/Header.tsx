@@ -5,7 +5,7 @@ import { CTA_HEADER } from "@/lib/formula-sindico";
 const links = [
   { label: "O Fórmula", href: "/#o-formula" },
   { label: "Atividades", href: "/atividades" },
-  { label: "Materiais", href: "/#materiais" },
+  { label: "Para síndicos", href: "/#sindicos" },
   { label: "Para administradoras", href: "/#administradoras" },
   { label: "Maicon Guedes", href: "/#maicon" },
 ];
