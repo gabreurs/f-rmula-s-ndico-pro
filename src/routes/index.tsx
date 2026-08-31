@@ -18,10 +18,9 @@ import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { FormularioLead } from "@/components/landing/FormularioLead";
 
-const titulo =
-  "Fórmula Síndico | Formação e desenvolvimento para o mercado condominial";
+const titulo = "Fórmula Síndico | Formação e desenvolvimento para síndicos";
 const descricao =
-  "Cursos, encontros, conteúdos e experiências para síndicos e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.";
+  "Cursos, encontros, conteúdos e experiências para síndicos profissionais e administradoras que buscam desenvolvimento e profissionalização no mercado condominial.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
