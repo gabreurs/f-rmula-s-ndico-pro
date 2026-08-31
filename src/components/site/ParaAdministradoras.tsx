@@ -15,8 +15,9 @@ export function ParaAdministradoras() {
               <p className="rule-label text-paper-muted">Para administradoras</p>
             </Reveal>
             <Reveal delay={80}>
-              <h2 className="display-xl mt-7 max-w-[15ch]">
-                Conhecimento também fortalece a relação com sua clientela.
+              <h2 className="display-xl mt-7 max-w-[16ch]">
+                Formação também fortalece a relação com sua clientela de
+                síndicos.
               </h2>
             </Reveal>
           </div>
